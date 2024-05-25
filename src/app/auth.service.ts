@@ -7,13 +7,16 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root'
 })
 export class AuthService {
-  session: any;
+  token: any;
   email: any;
+  
   constructor(private http: HttpClient,public cookieService: CookieService) { 
-    let session =  this.cookieService.get('session');
-    let email = this.cookieService.get('email');
-    this.email = email;
-    if(session) this.session = JSON.stringify(session);
+    let tokenFromCookie =  this.cookieService.get('token');
+    let emailFromCookie = this.cookieService.get('email');
+    if(emailFromCookie) this.email = emailFromCookie;
+    console.log("From authService constructor, tokenFromCookie="+tokenFromCookie);
+    console.log("From authService constructor, emailFromCookie="+emailFromCookie);
+    if(tokenFromCookie) this.token = tokenFromCookie;
   }
 
   login(email:string,password:string){
@@ -23,16 +26,23 @@ export class AuthService {
     }).pipe(share());
     
     ob.subscribe((response) => {
-      this.session = response;
+      let token = this.getTokenFromResponse(JSON.stringify(response));
       this.email = email;
-      this.cookieService.set('session', JSON.stringify(this.session));
+      this.cookieService.set('token', token);
       this.cookieService.set('email', email);
     });
     return ob;
   }
 
   logout(){
-    this.session=undefined;
+    this.token=undefined;
+    this.email=undefined;
     this.cookieService.deleteAll();
+  }
+
+  getTokenFromResponse(response:string){
+    let obj = JSON.parse(response);
+    let token = obj.token;
+    return token;
   }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder,FormGroup } from '@angular/forms';
 import { AuthService } from './auth.service';
+import { TaskService } from './task.service';
 
 
 @Component({
@@ -11,19 +12,16 @@ import { AuthService } from './auth.service';
 export class AppComponent {
   title = 'PtClient';
   form: FormGroup = this.fb.group({
-    username: [''],
+    email: [''],
     password: ['']
   });
   constructor(private fb: FormBuilder, public authService: AuthService, ){}
   
   submit(){
     this.authService
-      .login(this.form.value.username,this.form.value.password)
+      .login(this.form.value.email,this.form.value.password)
       .subscribe((response)=>{
-        //alert("you have successfully logged in");
-        //console.log("response="+JSON.stringify(response));
-        //JSONObject myobject = new JSONObject(response);
-        //console.log("firstName="+response.'firstName']);
+        
       });
   }
 }

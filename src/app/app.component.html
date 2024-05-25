@@ -1,11 +1,28 @@
-<div [formGroup]="form" id="form" *ngIf="!authService.session">
-  <input formControlName="username" type="text" placeholder="Username" /><br/>
+<div [formGroup]="form" id="form" *ngIf="!authService.token">
+  <input formControlName="email" type="text" placeholder="Email" /><br/>
   <input formControlName="password" type="password" placeholder="Password" /><br/>
   <button (click)="submit()">Login</button>
 </div>
 
-<div *ngIf="authService.session">
+<div *ngIf="authService.token">
   Welcome {{authService.email}}
-
   <button (click)="authService.logout()">Logout</button>
+  <!--data grid - start -->
+  <div ng-app="myApp" ng-controller="customersCtrl"> 
+ <!-- TODO --after task data access
+    <table>
+      <tr ng-repeat="x in names">
+        <td ng-if="$odd" style="background-color:#f1f1f1">
+        {{ x.Name }}</td>
+        <td ng-if="$even">
+        {{ x.Name }}</td>
+        <td ng-if="$odd" style="background-color:#f1f1f1">
+        {{ x.Country }}</td>
+        <td ng-if="$even">
+        {{ x.Country }}</td>
+      </tr>
+    </table>
+  -->  
+  </div>
+  <!--data grid - end -->
 </div>
