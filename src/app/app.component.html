@@ -5,7 +5,7 @@
 </div>
 
 <div *ngIf="authService.session">
-  Welcome {{authService.username}}
+  Welcome {{authService.email}}
 
   <button (click)="authService.logout()">Logout</button>
 </div>

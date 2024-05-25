@@ -8,25 +8,25 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class AuthService {
   session: any;
-  username: any;
+  email: any;
   constructor(private http: HttpClient,public cookieService: CookieService) { 
     let session =  this.cookieService.get('session');
-    let username = this.cookieService.get('username');
-    this.username = username;
+    let email = this.cookieService.get('email');
+    this.email = email;
     if(session) this.session = JSON.stringify(session);
   }
 
-  login(username:string,password:string){
-    let ob = this.http.post('https://dummyjson.com/auth/login',{
-      username: username,
+  login(email:string,password:string){
+    let ob = this.http.post('http://localhost:3000/api/auth/login',{
+      email: email,
       password: password,
     }).pipe(share());
     
     ob.subscribe((response) => {
       this.session = response;
-      this.username = username;
+      this.email = email;
       this.cookieService.set('session', JSON.stringify(this.session));
-      this.cookieService.set('username', username);
+      this.cookieService.set('email', email);
     });
     return ob;
   }
