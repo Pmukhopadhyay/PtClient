@@ -27,6 +27,7 @@ export class AuthService {
     
     ob.subscribe((response) => {
       let token = this.getTokenFromResponse(JSON.stringify(response));
+      this.token=token;
       this.email = email;
       this.cookieService.set('token', token);
       this.cookieService.set('email', email);
@@ -44,5 +45,9 @@ export class AuthService {
     let obj = JSON.parse(response);
     let token = obj.token;
     return token;
+  }
+
+  getToken(){
+    return this.token;
   }
 }

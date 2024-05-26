@@ -11,17 +11,24 @@ import { TaskService } from './task.service';
 })
 export class AppComponent {
   title = 'PtClient';
+  tasks : any;
+
   form: FormGroup = this.fb.group({
     email: [''],
     password: ['']
   });
-  constructor(private fb: FormBuilder, public authService: AuthService, ){}
+  constructor(
+    private fb: FormBuilder, 
+    public authService: AuthService,
+    public taskService: TaskService,
+  ){}
   
   submit(){
     this.authService
       .login(this.form.value.email,this.form.value.password)
       .subscribe((response)=>{
-        
+          this.tasks = this.taskService.getTasks(this.authService.getToken());
+          console.log("From app component, tasks="+this.tasks);
       });
   }
 }

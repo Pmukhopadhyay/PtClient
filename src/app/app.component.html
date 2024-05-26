@@ -8,21 +8,14 @@
   Welcome {{authService.email}}
   <button (click)="authService.logout()">Logout</button>
   <!--data grid - start -->
-  <div ng-app="myApp" ng-controller="customersCtrl"> 
- <!-- TODO --after task data access
-    <table>
-      <tr ng-repeat="x in names">
-        <td ng-if="$odd" style="background-color:#f1f1f1">
-        {{ x.Name }}</td>
-        <td ng-if="$even">
-        {{ x.Name }}</td>
-        <td ng-if="$odd" style="background-color:#f1f1f1">
-        {{ x.Country }}</td>
-        <td ng-if="$even">
-        {{ x.Country }}</td>
-      </tr>
-    </table>
-  -->  
+  <Table><tr><td>Title</td><td>Description</td><td>Status</td></tr>
+  <div *ngFor="let task of taskService.tasks$ | async">
+    <tr>
+      <td>{{ task.title }}</td>
+      <td>{{ task.description}}</td>
+      <td>{{ task.status }}</td>
+    </tr>
   </div>
+</Table>
   <!--data grid - end -->
 </div>
