@@ -5,7 +5,10 @@ import { TaskService } from './task.service';
 import { MatTableModule } from '@angular/material/table';
 import {Task} from './task.model.js';
 import {Observable,of, from } from 'rxjs';
-import { MatTableDataSource } from '@angular/material/table'
+import { MatTableDataSource } from '@angular/material/table';
+import { filter } from 'rxjs/operators'
+import { Router  } from '@angular/router';
+import {NavigationEnd} from '@angular/router';
 
 
 @Component({
@@ -29,11 +32,23 @@ export class AppComponent {
     private fb: FormBuilder, 
     public authService: AuthService,
     public taskService: TaskService,
+    private router: Router
   ){
 
     this.taskDatasource = new MatTableDataSource<Task>();
     this.taskColumns = ['title', 'description', 'status', 'delete row'];
+    this.router.events
+    .pipe(filter((rs): rs is NavigationEnd => rs instanceof NavigationEnd))
+    .subscribe(event => {
+      if (
+        event.id === 1 &&
+        event.url === event.urlAfterRedirects
+      ) {
+          this.authService.logout();
+      }
+    })
   }
+
 
 
   submit(){
