@@ -46,12 +46,13 @@ export class AppComponent {
       ) {
           this.authService.logout();
       }
-    })
+    });
   }
 
 
 
   submit(){
+
     this.authService
       .login(this.form.value.email,this.form.value.password)
       .subscribe((response)=>{
@@ -59,8 +60,7 @@ export class AppComponent {
         .subscribe(tasks => {
           this.taskDatasource.data = tasks;
         });
-        })
-        console.log("From app component, tasks="+this.taskDatasource);
+      });
       }
     
      onSelected() {
@@ -71,6 +71,21 @@ export class AppComponent {
       applyFilter(event: Event) {
         const filterValue = (event.target as HTMLInputElement).value;
         this.taskDatasource.filter = filterValue.trim().toLowerCase();
+      }
+
+      deleteTask(event: Event){
+        const id = (event.target as HTMLInputElement).id;
+        let temp = id.split('-');
+        let taskId = temp[1];
+        console.log("taskId="+taskId);
+        this.taskService.deleteTask(taskId)
+        .subscribe(
+          (data)=> {this.taskService.getTasks(this.authService.getToken())
+            .subscribe(tasks => {
+              this.taskDatasource.data = tasks;
+            });},
+    
+        );
       }
 
 }
