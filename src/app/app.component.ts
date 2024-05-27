@@ -18,14 +18,13 @@ export class AppComponent {
   title = 'PtClient';
   tasks$!: Observable<Task[]>;
   taskDatasource: MatTableDataSource<Task>;
-  taskColumns: string[] = ['title', 'description', 'status'];
-  //@ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  //@ViewChild(MatSort, { static: true }) sort: MatSort;
+  taskColumns: string[] = ['title', 'description', 'status', 'delete row'];
  
   form: FormGroup = this.fb.group({
     email: [''],
     password: ['']
   });
+
   constructor(
     private fb: FormBuilder, 
     public authService: AuthService,
@@ -33,7 +32,7 @@ export class AppComponent {
   ){
 
     this.taskDatasource = new MatTableDataSource<Task>();
-    this.taskColumns = ['title', 'description', 'status'];
+    this.taskColumns = ['title', 'description', 'status', 'delete row'];
   }
 
 
@@ -47,6 +46,16 @@ export class AppComponent {
         });
         })
         console.log("From app component, tasks="+this.taskDatasource);
+      }
+    
+     onSelected() {
+      console.log("from select box ");
+
+      }
+
+      applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.taskDatasource.filter = filterValue.trim().toLowerCase();
       }
 
 }
