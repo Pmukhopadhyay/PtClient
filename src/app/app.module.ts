@@ -11,6 +11,7 @@ import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {FormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatFormFieldModule, 
     MatSortModule, 
     MatPaginatorModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
 
 
   ],

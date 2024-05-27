@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormBuilder,FormGroup } from '@angular/forms';
 import { AuthService } from './auth.service';
 import { TaskService } from './task.service';
-import { MatTableModule } from '@angular/material/table';
 import {Task} from './task.model.js';
 import {Observable,of, from } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,10 +13,14 @@ import {NavigationEnd} from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
   
 })
 export class AppComponent {
+  isAdd: Boolean = false;
+  isEdit: Boolean = false;
+  isDefault: Boolean = true;
+
   title = 'PtClient';
   tasks$!: Observable<Task[]>;
   taskDatasource: MatTableDataSource<Task>;
@@ -36,7 +39,7 @@ export class AppComponent {
   ){
 
     this.taskDatasource = new MatTableDataSource<Task>();
-    this.taskColumns = ['title', 'description', 'status', 'delete row'];
+    this.taskColumns = ['title', 'description', 'status', 'edit row', 'delete row'];
     this.router.events
     .pipe(filter((rs): rs is NavigationEnd => rs instanceof NavigationEnd))
     .subscribe(event => {
@@ -87,5 +90,45 @@ export class AppComponent {
     
         );
       }
+
+      editTask(event: Event){
+        const id = (event.target as HTMLInputElement).id;
+        let temp = id.split('-');
+        let taskId = temp[1];
+        console.log("edit called,taskId="+taskId);
+        this.isDefault=false;
+        this.isEdit=true;
+      }
+
+      updateTask(event: Event){
+        //const id = (event.target as HTMLInputElement).id;
+        //let temp = id.split('-');
+        //let taskId = temp[1];
+        console.log("update called");
+        this.isDefault=true;
+        this.isEdit=false;
+      }
+
+      addRow(event: Event){
+        //const id = (event.target as HTMLInputElement).id;
+        //let temp = id.split('-');
+        //let taskId = temp[1];
+        console.log("add row called");
+        this.isDefault=false;
+        this.isEdit=false;
+        this.isAdd=true;
+      }
+
+      addTask(event: Event){
+        //const id = (event.target as HTMLInputElement).id;
+        //let temp = id.split('-');
+        //let taskId = temp[1];
+        console.log("add task called");
+        this.isDefault=true;
+        this.isEdit=false;
+        this.isAdd=false;
+      }
+
+
 
 }
